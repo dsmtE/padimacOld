@@ -1,6 +1,10 @@
 # padimac
 
-## Project setup
+Small IMAC drum pad to have fun !
+Made by Mathilde DUMOULIN & Enguerrand DE SMET
+
+## NPM commands
+### Project setup
 ```
 npm install
 ```
@@ -19,6 +23,3 @@ npm run build
 ```
 npm run lint
 ```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
