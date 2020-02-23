@@ -1,60 +1,66 @@
 <template>
-  <v-app>
-    <v-app-bar
-      app
-      color="primary"
-      dark
-    >
-      <div class="d-flex align-center">
-        <v-img
-          alt="Vuetify Logo"
-          class="shrink mr-2"
-          contain
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
-          transition="scale-transition"
-          width="40"
-        />
+  <v-app id="sandbox">
+    <v-navigation-drawer v-model="primaryDrawer.model" clipped :permanent="primaryDrawer.type === 'permanent'" :temporary="primaryDrawer.type === 'temporary'" app overflow>
+      <v-list nav>
 
-        <v-img
-          alt="Vuetify Name"
-          class="shrink mt-1 hidden-sm-and-down"
-          contain
-          min-width="100"
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-          width="100"
-        />
-      </div>
+        <v-list-item v-for="item in navBarItems" :key="item.title" :to="item.link">
+          <v-list-item-icon> <v-icon>{{ item.icon }}</v-icon> </v-list-item-icon>
+          <v-list-item-content> <v-list-item-title>{{ item.title }}</v-list-item-title> </v-list-item-content>
+        </v-list-item>
+      </v-list>
 
-      <v-spacer></v-spacer>
+      <v-list>
+        <v-subheader>OPTIONS</v-subheader>
+        <v-list-item>
+          <v-list-item-content>
+            <v-list-item-title>Drawer</v-list-item-title>
+            <v-radio-group v-model="primaryDrawer.type" column >
+              <v-radio v-for="drawer in drawers" :key="drawer" :label="drawer" :value="drawer.toLowerCase()" primary/>
+            </v-radio-group>
+          </v-list-item-content>
+        </v-list-item>
 
-      <v-btn
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-        text
-      >
-        <span class="mr-2">Latest Release</span>
-        <v-icon>mdi-open-in-new</v-icon>
-      </v-btn>
+        <v-list-item>
+          <v-list-item-content>
+            <v-list-item-title>Theme</v-list-item-title>
+            <v-switch v-model="$vuetify.theme.dark" primary label="Dark"/>
+          </v-list-item-content>
+        </v-list-item>
+
+      </v-list>
+    </v-navigation-drawer>
+
+    <v-app-bar clipped-left app>
+      <v-app-bar-nav-icon v-if="primaryDrawer.type !== 'permanent'" @click.stop="primaryDrawer.model = !primaryDrawer.model"/>
+      <v-toolbar-title> PadIMAC </v-toolbar-title>
     </v-app-bar>
 
     <v-content>
-      <HelloWorld/>
+      <router-view/>
     </v-content>
+
   </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld'
 
 export default {
   name: 'App',
 
   components: {
-    HelloWorld
   },
 
   data: () => ({
-    //
+    navBarItems: [
+      { title: 'Play', icon: 'mdi-music-note', link: '/' },
+      { title: 'Configuration', icon: 'mdi-view-dashboard', link: '' },
+      { title: 'help', icon: 'mdi-help-box', link: '/About' }
+    ],
+    drawers: ['Default (no property)', 'Permanent', 'Temporary'],
+    primaryDrawer: {
+      model: null,
+      type: 'default (no property)'
+    }
   })
 }
 </script>
